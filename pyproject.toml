@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "django-siwe-auth"
+version = "0.1.0"
+description = "Custom Django authentication backend using Sign-In with Ethereum (EIP-4361) with a custom wallet user model."
+license = "MIT"
+authors = ["Payton Garland <payton.r.g@gmail.com>"]
+packages = [
+    { include = "siwe_auth" }
+]
+readme = "README.md"
+repository = "https://github.com/payton/django-siwe-auth"
+keywords = ["SIWE", "EIP-4361", "Sign-In with Ethereum", "Django", "Web3", "Authentication", "Authorization"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+web3 = "^5.26.0"
+siwe = "^0.1.2"
+Django = "^4.0.1"
+pytz = "^2021.3"
+
+[tool.poetry.dev-dependencies]
+black = "^21.12b0"
+pytest = "^6.2.5"
+flake8 = "^4.0.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,160 @@
+{% load static %}
+<html>
+    <head>
+        <title>Windows 90 ETH</title>
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://unpkg.com/98.css" />
+        <link href="{% static 'app/style.css' %}" rel="stylesheet" />
+        <script src="{% static 'app/bundle.js' %}"></script>
+        <script src="{% static 'app/utils.js' %}"></script>
+        <link rel="icon" type="image/png" href="{% static 'app/w9e-icon.png' %}" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self' cdn-cors.ethers.io cdnjs.cloudflare.com; font-src 'self' unpkg.com; connect-src 'self' wss://*.walletconnect.org https://*.walletconnect.org https://*.infura.io; img-src 'self' data:; style-src 'self' 'unsafe-inline' unpkg.com;"
+        />
+    </head>
+
+    <body class="h-screen w-screen flex flex-col">
+        <div class="w-full h-full" id="desktop">
+            <div class="desktop-screen window inline-block select-none">
+                <div class="title-bar">
+                    <div class="title-bar-text">
+                        <div class="flex">
+                            <img src="{% static 'app/favicon.png' %}" alt="Notepad icon" class="w-4 h-4 mr-1" />
+                            <p id="title">Untitled</p>
+                            &nbsp- Notepad&nbsp
+                            <p id="unsaved"></p>
+                        </div>
+                    </div>
+                    <div class="title-bar-controls">
+                        <button id="toggleSize" aria-label="Maximize"></button>
+                        <button id="closeButton" aria-label="Close" title="Sign-Out"></button>
+                    </div>
+                </div>
+                <div class="flex py-0.5">
+                    <div
+                        id="disconnectButton"
+                        class="cursor-default hover:bg-blue-900 hover:text-white px-1 hidden"
+                    >
+                        Logout
+                    </div>
+                    <div
+                        id="saveButton"
+                        class="cursor-default hover:bg-blue-900 hover:text-white px-1 hidden"
+                    >
+                        Save
+                    </div>
+                </div>
+                <textarea
+                    name="notepad"
+                    id="notepad"
+                    cols="30"
+                    rows="10"
+                    spellcheck="false"
+                    class="mousetrap"
+                ></textarea>
+            </div>
+            <div class="login-screen window select-none absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style="width: 400px">
+                <div class="title-bar bg-blue-900">
+                    <div class="title-bar-text">
+                        <div class="flex">
+                            <p>Enter Password</p>
+                        </div>
+                    </div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="grid grid-cols-6 grid-rows-2 gap-4 justify-items-center">
+                        <div class="col-span-6 row-span-1 align-center">
+                            <img src="{% static 'app/w9e.png' %}" alt="Notepad icon" class="w-auto h-20 mr-1" />
+                        </div>
+                        <div class="col-span-6 row-span-1 w-full">
+                            <p style="margin-bottom: 3px">Select a <u>w</u>allet:</p>
+                            <select id="selectProvider" class="w-full">
+                                <option value="manual" selected>Manual</option>
+                                <option value="metamask">MetaMask</option>
+                                <option value="wallet-connect">WalletConnect</option>
+                            </select>
+                            <p style="margin-bottom: 3px; margin-top: 10px">Password:</p>
+                            <input class="w-full" type="text" disabled value="No passwords here!" />
+                        </div>
+                        <div class="col-span-6 row-span-1 w-full">
+                            <button id="signIn" style="float: right">Sign-In with Ethereum</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="warningWindow" class="window select-none absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden">
+                <div class="title-bar bg-blue-900">
+                    <div class="title-bar-text">
+                        <div class="flex">
+                            <p>Unauthorized.</p>
+                        </div>
+                    </div>
+                    <div class="title-bar-controls">
+                        <button id="closeWarningButton" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="grid grid-cols-6">
+                        <div>
+                            <img src="{% static 'app/warning.png' %}" alt="Notepad icon" class="w-8 h-8 mr-1" />
+                        </div>
+                        <div class="col-span-5 text-center align-middle"><p>You don't currently have permission to access this notepad.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-8 menu-bar flex justify-between desktop-screen">
+            <div class="flex items-left">
+                <a href="https://login.xyz" target="_blank">
+                    <button class="m-1">
+                        <div class="flex items-center justify-evenly">
+                            <img
+                                    src="{% static 'app/w9e-icon.png' %}"
+                                    alt="Start Button"
+                                    class="w-4 w-4 mb-0.5"
+                                    draggable="false"
+                            />
+                            &nbsp&nbsplogin.xyz
+                        </div>
+                    </button>
+                </a>
+                <button class="m-1" id="personalNotepad">
+                    <div class="flex items-left justify-evenly">
+                        Personal Notepad
+                    </div>
+                </button>
+                <button class="m-1" id="ensNotepad">
+                    <div class="flex items-left justify-evenly">
+                        ENS Notepad
+                    </div>
+                </button>
+                <button class="m-1" id="zoraNotepad">
+                    <div class="flex items-left justify-evenly">
+                        Zora Notepad
+                    </div>
+                </button>
+                <button class="m-1" id="cryptoBaristasNotepad">
+                    <div class="flex items-left justify-evenly">
+                        Crypto Baristas Notepad
+                    </div>
+                </button>
+            </div>
+            <div
+                id="clock"
+                class="clock justify-end px-2 items-center flex m-1 cursor-default select-none"
+            ></div>
+        </div>
+        <div class="h-8 flex justify-end w-full login-screen" style="background-color: #018080">
+            <div
+                    class="justify-end px-2 items-center flex m-1 cursor-default select-none"
+                    style="color: white; text-shadow: 2px 2px black;"
+            >
+                Windows 90 ETH EIP.4361
+            </div>
+        </div>
+    </body>
+</html>
