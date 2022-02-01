@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 
 from web3 import Web3
 
+
 def validate_ethereum_address(value):
     if not Web3.isChecksumAddress(value):
         raise ValidationError
@@ -47,7 +48,12 @@ class WalletManager(BaseUserManager):
 
 class Wallet(AbstractBaseUser, PermissionsMixin):
     # EIP-55 compliant: https://eips.ethereum.org/EIPS/eip-55
-    ethereum_address = models.CharField(unique=True, primary_key=True, max_length=42, validators=[validate_ethereum_address])
+    ethereum_address = models.CharField(
+        unique=True,
+        primary_key=True,
+        max_length=42,
+        validators=[validate_ethereum_address],
+    )
     ens_name = models.CharField(max_length=255, blank=True, null=True)
     ens_avatar = models.CharField(max_length=255, blank=True, null=True)
     created = models.DateTimeField("datetime created")

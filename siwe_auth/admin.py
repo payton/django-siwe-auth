@@ -37,20 +37,38 @@ class WalletAdmin(BaseUserAdmin):
     form = WalletChangeForm
     add_form = WalletCreationForm
 
-    list_display = ("ethereum_address", "ens_name", "ens_avatar", "is_active", "is_admin",)
-    list_filter = ("is_active", "is_admin",)
+    list_display = (
+        "ethereum_address",
+        "ens_name",
+        "ens_avatar",
+        "is_active",
+        "is_admin",
+    )
+    list_filter = (
+        "is_active",
+        "is_admin",
+    )
     fieldsets = (
         (None, {"fields": ("ethereum_address",)}),
         ("Permissions", {"fields": ("is_admin",)}),
     )
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('ethereum_address',),
-        }),
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("ethereum_address",),
+            },
+        ),
     )
-    search_fields = ("ethereum_address", "ens_name",)
-    ordering = ("ethereum_address", "ens_name",)
+    search_fields = (
+        "ethereum_address",
+        "ens_name",
+    )
+    ordering = (
+        "ethereum_address",
+        "ens_name",
+    )
     filter_horizontal = ()
 
 

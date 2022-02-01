@@ -104,7 +104,10 @@ class SiweBackend(BaseBackend):
             )
 
         # Group settings
-        if hasattr(settings, "CREATE_GROUPS_ON_AUTHN") and settings.CREATE_GROUPS_ON_AUTHN:
+        if (
+            hasattr(settings, "CREATE_GROUPS_ON_AUTHN")
+            and settings.CREATE_GROUPS_ON_AUTHN
+        ):
             for custom_group in settings.CUSTOM_GROUPS:
                 group, created = Group.objects.get_or_create(name=custom_group[0])
                 if created:
