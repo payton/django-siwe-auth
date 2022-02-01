@@ -99,6 +99,7 @@ With the included example applications, you can test out Sign-In with Ethereum a
 
 Requirements for developing and running examples apps:
 * [poetry](https://python-poetry.org/docs/)
+* [npm](https://www.npmjs.com/)
 
 ### Demo Application
 
@@ -121,6 +122,13 @@ Requirements for developing and running examples apps:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+### Rebuild Demo JavaScript
+If you make an update to the frontend directory or siwe submodule, rebuild bundle.js:
+```sh
+cd examples/notepad/frontend \
+npm install \
+npm run build
+```
 
 
 <!-- USAGE EXAMPLES -->
