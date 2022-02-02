@@ -64,22 +64,10 @@ const signIn = async (connector: Providers) => {
     }
 
     /**
-     * Try to resolve address ENS and updates the title accordingly.
-     */
-    let ens: string;
-    try {
-        ens = await provider.lookupAddress(address);
-    } catch (error) {
-        console.error(error);
-    }
-
-    updateTitle(ens ?? address);
-
-    /**
      * Gets a nonce from our backend, this will add this nonce to the session so
      * we can check it on sign in.
      */
-    const nonce = await fetch('/api/authentication/nonce', {
+    const nonce = await fetch('/api/auth/nonce', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -107,15 +95,14 @@ const signIn = async (connector: Providers) => {
      * Generates the message to be signed and uses the provider to ask for a signature
      */
     const signature = await provider.getSigner().signMessage(message.signMessage());
-    message.signature = signature;
 
     /**
      * Calls our sign_in endpoint to validate the message, if successful it will
      * save the message in the session and allow the user to store his text
      */
-    fetch(`/api/authentication/login`, {
+    fetch(`/api/auth/login`, {
         method: 'POST',
-        body: JSON.stringify({ message, ens }),
+        body: JSON.stringify({ message, signature }),
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': document.cookie.match(new RegExp('(^| )csrftoken=([^;]+)'))[2],
@@ -151,7 +138,7 @@ const signOut = async () => {
     });
     updateTitle('Untitled');
     updateNotepad('');
-    return fetch('/api/authentication/logout', {
+    return fetch('/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
         headers: {

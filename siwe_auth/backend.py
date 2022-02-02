@@ -43,7 +43,7 @@ class SiweBackend(BaseBackend):
     Authenticate an Ethereum address as per Sing-In with Ethereum (EIP-4361).
     """
 
-    def authenticate(self, request, siwe_message: SiweMessage = None):
+    def authenticate(self, request, signature: str = None, siwe_message: SiweMessage = None):
         body = json.loads(request.body)
 
         if siwe_message is None:
@@ -53,11 +53,12 @@ class SiweBackend(BaseBackend):
                     for k, v in body["message"].items()
                 }
             )
+            signature = body["signature"]
 
         # Validate signature
         w3 = Web3(HTTPProvider(settings.PROVIDER))
         try:
-            siwe_message.validate(provider=w3)
+            siwe_message.validate(signature=signature, provider=w3)
         except ValidationError:
             logging.info("Authentication attempt rejected due to invalid message.")
             return None
