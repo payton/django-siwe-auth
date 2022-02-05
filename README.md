@@ -17,7 +17,7 @@
   <p align="center">
     A complete Django authentication system overhall for Web3. Treat Ethereum wallets as first-class citizens with authentication via Sign-In with Ethereum (EIP-4361) and authorization via on-chain attributes such as NFT (ERC721/ERC1155) and ERC20 token ownership. 
     <br />
-    <h4><b><u>DISCLAIMER: django-siwe-auth is still in early development (it will change often!), so PyPI has not been updated with an initial version.</u></b></h4>
+    <h4><b><u>DISCLAIMER: django-siwe-auth is still in early development (it will change often!)</u></b></h4>
     <a href="https://github.com/payton/django-siwe-auth"><strong>Explore the docs »</strong></a>
     <br />
     <br />
