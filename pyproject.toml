@@ -17,6 +17,7 @@ web3 = "^5.26.0"
 siwe = "^1.0.0"
 Django = "^4.0.1"
 pytz = "^2021.3"
+django-ratelimit = "^3.0.1"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"

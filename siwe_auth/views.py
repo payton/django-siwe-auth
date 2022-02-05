@@ -11,10 +11,13 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.views.decorators.http import require_http_methods
 
+from ratelimit.decorators import ratelimit
+
 from .custom_groups.group_manager import GroupManager
 from .models import Nonce, Wallet
 
 
+@ratelimit(key='ip', rate='5/m')
 @require_http_methods(["POST"])
 def login(request):
     wallet = authenticate(request)
@@ -40,12 +43,14 @@ def _check_groups(wallet: Wallet):
             wallet.groups.remove(name)
 
 
+@ratelimit(key='ip', rate='5/m')
 @require_http_methods(["POST"])
 def logout(request):
     auth_logout(request)
     return redirect("/")
 
 
+@ratelimit(key='ip', rate='5/m')
 @require_http_methods(["GET"])
 def nonce(request):
     now = datetime.now(tz=pytz.UTC)
