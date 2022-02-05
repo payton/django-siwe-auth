@@ -83,7 +83,7 @@ const signIn = async (connector: Providers) => {
     const message = new SiweMessage({
         domain: document.location.host,
         address,
-        chainId: `${await provider.getNetwork().then(({ chainId }) => chainId)}`,
+        chainId: parseInt(`${await provider.getNetwork().then(({ chainId }) => chainId)}`),
         uri: document.location.origin,
         version: '1',
         statement: 'Windows Ninety Eth Example',
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     notepads = [
         ['personal', document.getElementById('personalNotepad') as HTMLButtonElement],
         ['ens', document.getElementById('ensNotepad') as HTMLButtonElement],
-        ['zora', document.getElementById('zoraNotepad') as HTMLButtonElement],
+        ['zorb', document.getElementById('zorbNotepad') as HTMLButtonElement],
         ['cryptoBaristas', document.getElementById('cryptoBaristasNotepad') as HTMLButtonElement],
     ];
     notepads.forEach((value, index) => {
