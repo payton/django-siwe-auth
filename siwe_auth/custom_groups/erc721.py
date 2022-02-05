@@ -41,20 +41,22 @@ class ERC721Manager(GroupManager):
         return expression(balance)
 
     @abstractmethod
-    def is_member(self, ethereum_address: str, provider: HTTPProvider) -> bool:
+    def is_member(self, wallet: object, provider: HTTPProvider) -> bool:
         pass
 
 
 class ERC721OwnerManager(ERC721Manager):
-    def is_member(self, ethereum_address: str, provider: HTTPProvider) -> bool:
+    def is_member(self, wallet: object, provider: HTTPProvider) -> bool:
+        if not self._valid_wallet(wallet=wallet):
+            return False
         try:
             return self._is_member(
-                ethereum_address=ethereum_address,
+                ethereum_address=wallet.ethereum_address,
                 provider=provider,
                 expression=lambda x: x > 0,
             )
         except ValueError:
             logging.error(
-                f"Unable to verify membership of invalid address: {ethereum_address}"
+                f"Unable to verify membership of invalid address: {wallet.ethereum_address}"
             )
         return False

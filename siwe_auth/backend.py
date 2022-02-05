@@ -115,7 +115,7 @@ class SiweBackend(BaseBackend):
                     logging.info(f"Created group '{custom_group[0]}'.")
                 group_manager: GroupManager = custom_group[1]
                 if group_manager.is_member(
-                    ethereum_address=wallet.ethereum_address,
+                    wallet=wallet,
                     provider=HTTPProvider(settings.PROVIDER),
                 ):
                     logging.info(

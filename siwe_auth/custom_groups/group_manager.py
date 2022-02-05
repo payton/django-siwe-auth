@@ -12,11 +12,14 @@ class GroupManager(ABC):
         pass
 
     @abstractmethod
-    def is_member(self, ethereum_address: str, provider: HTTPProvider) -> bool:
+    def is_member(self, wallet: object, provider: HTTPProvider) -> bool:
         """
         Membership function to identify if a given ethereum address is part of this class' group.
         :param provider: Web3 provider to use for membership check.
-        :param ethereum_address: Address to check membership of.
+        :param wallet: Object with ethereum_address attribute to check membership of.
         :return: True if address is a member else False
         """
         pass
+
+    def _valid_wallet(self, wallet: object):
+        return wallet.__getattribute__('ethereum_address') is not None
