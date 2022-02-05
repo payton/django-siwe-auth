@@ -378,16 +378,28 @@ class GroupManager(ABC):
       pass
 
    @abstractmethod
-    def is_member(self, ethereum_address: str) -> bool:
+    def is_member(self, wallet: object) -> bool:
         pass
 ```
 
 #### Included Managers
 
 <ul>
-<li>ERC20OwnerManager</li>
-<li>ERC721OwnerManager</li>
-<li>ERC1155OwnerManager</li>
+<li>ERC20Manager
+    <ul>
+        <li>ERC20OwnerManager</li>
+    </ul>
+</li>
+<li>ERC721Manager
+    <ul>
+        <li>ERC721OwnerManager</li>
+    </ul>
+</li>
+<li>ERC1155Manager
+    <ul>
+        <li>ERC1155OwnerManager</li>
+    </ul>
+</li>
 </ul>
 
 #### Adding a Group
