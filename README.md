@@ -422,8 +422,7 @@ CUSTOM_GROUPS=[
 
 
 
-## Scenarios
-TODO: Add specific migration/adoption tutorials.
+## Scenarios (WIP)
 
 Examples:
 1. Start a new web app with wallet user model.
