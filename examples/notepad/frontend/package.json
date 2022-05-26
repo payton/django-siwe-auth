@@ -4,8 +4,8 @@
     "description": "",
     "main": "src/index.ts",
     "scripts": {
-        "dev": "npm i --prefix ../siwe/ && tsc -p ../siwe/tsconfig.json && concurrently \"webpack --watch\"",
-        "build": "npm i --prefix ../siwe/ && tsc -p ../siwe/tsconfig.json && concurrently \"tsc\" \"webpack\"",
+        "dev": "tsc -p ./tsconfig.json && concurrently \"webpack --watch\"",
+        "build": "tsc -p ./tsconfig.json && concurrently \"tsc\" \"webpack\"",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Spruce Systems Inc.",
@@ -27,7 +27,7 @@
         "path-browserify": "^1.0.1",
         "process": "^0.11.10",
         "session-file-store": "^1.5.0",
-        "siwe": "file:../siwe",
+        "siwe": "^1.1.6",
         "stream-browserify": "^3.0.0",
         "stream-http": "^3.2.0",
         "url": "^0.11.0",
