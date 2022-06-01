@@ -30,7 +30,7 @@ class WalletManager(BaseUserManager):
         wallet.save(using=self._db)
         return wallet
 
-    def create_superuser(self, ethereum_address: str):
+    def create_superuser(self, ethereum_address: str, password: str):
         """
         Creates and saves a superuser with the given ethereum address.
         """
