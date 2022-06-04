@@ -79,7 +79,11 @@ class SiweBackend(BaseBackend):
             return None
 
         # Pull ENS data
-        ens_profile = ENSProfile(ethereum_address=siwe_message.address, w3=w3)
+        if getattr(settings, "CREATE_ENS_PROFILE_ON_AUTHN", True):
+            ens_profile = ENSProfile(ethereum_address=siwe_message.address, w3=w3)
+        else:
+            ens_profile = ENSProfile.__new__(ENSProfile) # blank ENSProfile, skipping __init__ constructor
+
 
         # Message and nonce has been validated. Authentication complete. Continue with authorization/other.
         now = datetime.datetime.now(tz=pytz.UTC)
@@ -105,10 +109,7 @@ class SiweBackend(BaseBackend):
             )
 
         # Group settings
-        if (
-            hasattr(settings, "CREATE_GROUPS_ON_AUTHN")
-            and settings.CREATE_GROUPS_ON_AUTHN
-        ):
+        if getattr(settings, "CREATE_GROUPS_ON_AUTHN", False):
             for custom_group in settings.CUSTOM_GROUPS:
                 group, created = Group.objects.get_or_create(name=custom_group[0])
                 if created:
@@ -142,8 +143,8 @@ class ENSProfile:
     Container for ENS profile information including but not limited to primary name and avatar.
     """
 
-    name: str
-    avatar: str
+    name: str = ""
+    avatar: str = ""
 
     def __init__(self, ethereum_address: str, w3: Web3):
         # Temporary until https://github.com/ethereum/web3.py/pull/2286 is merged
@@ -151,5 +152,3 @@ class ENSProfile:
         resolver = ENS.fromWeb3(w3).resolver(normal_name=self.name)
         # if resolver:
         #     self.avatar = resolver.caller.text(normal_name_to_hash(self.name), 'avatar')
-        # else:
-        self.avatar = ""
