@@ -175,6 +175,8 @@ Requirements for using `django-siwe-auth` in a Django application:
    AUTHENTICATION_BACKENDS = ["siwe_auth.backend.SiweBackend"]
    LOGIN_URL = "/"
    SESSION_COOKIE_AGE = 3 * 60 * 60 
+   CREATE_GROUPS_ON_AUTHN = True # defaults to False
+   CREATE_ENS_PROFILE_ON_AUTHN = True # defaults to True
    CUSTOM_GROUPS = [
        ('ens_owners', ERC721OwnerManager(config={'contract': '0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85'})),
        ('bayc_owners', ERC721OwnerManager(config={'contract': '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D'})),
