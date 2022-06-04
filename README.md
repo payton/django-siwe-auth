@@ -359,9 +359,18 @@ fetch('/api/authentication/nonce', {
 
 
 ### Configuring Your Project
-TODO: Define required and optional configuration variables for project's `settings.py`
 
-
+#### django-siwe-auth specific options in settings.py:
+```py
+AUTH_USER_MODEL = "siwe_auth.Wallet" # required for siwe as the default authentication
+AUTHENTICATION_BACKENDS = ["siwe_auth.backend.SiweBackend"] # required for siwe as the default authentication
+LOGIN_URL = "/" # optional, django's default is "/accounts/login/"
+SESSION_COOKIE_AGE = 3 * 60 * 60 # Age of cookie, in seconds. Optional, django's default is weeks.
+CREATE_GROUPS_ON_AUTHN = True # optional, default is False
+CREATE_ENS_PROFILE_ON_AUTHN = True # optional, default is True
+CUSTOM_GROUPS = [] # optional, see "Adding a Group" below
+PROVIDER = "https://mainnet.infura.io/v3/..." # Required if CREATE_GROUPS_ON_AUTHN or CREATE_ENS_PROFILE_ON_AUTHN are True. Optional otherwise. Any ethereum API key (infura or alchemy) will work.
+```
 
 
 <!-- USAGE EXAMPLES -->
