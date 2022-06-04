@@ -175,7 +175,7 @@ Requirements for using `django-siwe-auth` in a Django application:
    AUTHENTICATION_BACKENDS = ["siwe_auth.backend.SiweBackend"]
    LOGIN_URL = "/"
    SESSION_COOKIE_AGE = 3 * 60 * 60 
-   CREATE_GROUPS_ON_AUTHN = True # defaults to False
+   CREATE_GROUPS_ON_AUTHN = False # defaults to False
    CREATE_ENS_PROFILE_ON_AUTHN = True # defaults to True
    CUSTOM_GROUPS = [
        ('ens_owners', ERC721OwnerManager(config={'contract': '0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85'})),
@@ -360,12 +360,19 @@ fetch('/api/authentication/nonce', {
 
 ### Configuring Your Project
 
-#### django-siwe-auth specific options in settings.py:
+#### Relevant native Django settings
+
 ```py
+# in settings.py
 AUTH_USER_MODEL = "siwe_auth.Wallet" # required for siwe as the default authentication
 AUTHENTICATION_BACKENDS = ["siwe_auth.backend.SiweBackend"] # required for siwe as the default authentication
 LOGIN_URL = "/" # optional, django's default is "/accounts/login/"
 SESSION_COOKIE_AGE = 3 * 60 * 60 # Age of cookie, in seconds. Optional, django's default is weeks.
+```
+
+#### django-siwe-auth specific settings
+```py
+# in settings.py
 CREATE_GROUPS_ON_AUTHN = True # optional, default is False
 CREATE_ENS_PROFILE_ON_AUTHN = True # optional, default is True
 CUSTOM_GROUPS = [] # optional, see "Adding a Group" below

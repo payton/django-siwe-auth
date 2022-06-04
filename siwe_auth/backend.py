@@ -143,8 +143,8 @@ class ENSProfile:
     Container for ENS profile information including but not limited to primary name and avatar.
     """
 
-    name: str = ""
-    avatar: str = ""
+    name: str = None
+    avatar: str = None
 
     def __init__(self, ethereum_address: str, w3: Web3):
         # Temporary until https://github.com/ethereum/web3.py/pull/2286 is merged
