@@ -98,7 +98,6 @@ class SiweBackend(BaseBackend):
                 ethereum_address=Web3.toChecksumAddress(siwe_message.address),
                 ens_name=ens_profile.name,
                 ens_avatar=ens_profile.avatar,
-                created=now,
                 last_login=now,
                 password=None,
             )
