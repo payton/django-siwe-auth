@@ -5,7 +5,6 @@ import django.conf as conf
 from django.test import TestCase, Client
 from eth_account import Account, messages
 from humps import decamelize
-import pytest
 from siwe.siwe import SiweMessage, ValidationError
 from siwe_auth.models import Nonce
 
