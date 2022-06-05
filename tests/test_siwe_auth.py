@@ -1,12 +1,17 @@
 import json
 from os import path
 
+import django.conf as conf
 from django.test import TestCase, Client
 from eth_account import Account, messages
 from humps import decamelize
 import pytest
 from siwe.siwe import SiweMessage, ValidationError
+from siwe_auth.models import Nonce
 
+# override settings for test
+conf.settings.CREATE_GROUPS_ON_AUTHN = False
+conf.settings.CREATE_ENS_PROFILE_ON_AUTHN = False
 
 BASE_TESTS = path.join("examples", "notepad", "siwe", "test")
 with open(path.join(BASE_TESTS, "parsing_positive.json"), "r") as f:
@@ -40,8 +45,30 @@ class SigningClientApiTest(TestCase):
         return nonce_content['nonce']
 
     def test_fails_without_nonce(self):
-        # todo: same as below but without nonce
-        pass 
+        for test_name, test in parsing_positive.items():
+            message = SiweMessage(test["fields"])
+            message.address = self.account.address
+
+            message_obj = {}
+            for slot in message.__slots__:
+                slotvalue = getattr(message, slot, None)
+                if slotvalue is not None:
+                    message_obj[slot] = slotvalue
+
+            signature = self.account.sign_message(
+                messages.encode_defunct(text=message.prepare_message())
+            ).signature
+
+            headers = {
+                'content_type': 'application/json',
+            }
+
+            sig = signature.hex()
+            with self.assertRaises(Nonce.DoesNotExist):
+                loginAttemptResponse = self.client.post("/api/auth/login", {
+                    'message': message_obj,
+                    'signature': sig
+                }, **headers)
 
     def test_message_round_trip(self):
         for test_name, test in parsing_positive.items():
@@ -71,8 +98,4 @@ class SigningClientApiTest(TestCase):
                 'signature': sig
             }, **headers)
             
-
-            print('loginAttemptResponse', loginAttemptResponse)
-            
-            # fails because of infura key access denied
-            # requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://mainnet.infura.io/v3/69bbfab4edd94ae0ae6a78d63f908d42
+            self.assertEqual(loginAttemptResponse.status_code, 200)
