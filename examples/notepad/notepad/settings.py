@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import sys
 
 from siwe_auth.custom_groups.erc721 import ERC721OwnerManager
 from siwe_auth.custom_groups.erc1155 import ERC1155OwnerManager
@@ -18,6 +19,9 @@ from siwe_auth.custom_groups.erc1155 import ERC1155OwnerManager
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+sys.path.append(str(BASE_DIR)) # used for tests
+# the notepad.settings app is the example app useds in tests.py
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
