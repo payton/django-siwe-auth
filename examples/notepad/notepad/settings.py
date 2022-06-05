@@ -37,6 +37,7 @@ AUTHENTICATION_BACKENDS = ["siwe_auth.backend.SiweBackend"]
 LOGIN_URL = "/"
 SESSION_COOKIE_AGE = 3 * 60 * 60
 CREATE_GROUPS_ON_AUTHN = True
+CREATE_ENS_PROFILE_ON_AUTHN = True
 CUSTOM_GROUPS = [
     (
         "ens",
