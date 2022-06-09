@@ -155,5 +155,9 @@ cython_debug/
 # javascript modules
 node_modules
 
+# example application build files
+bundle.js
+bundle.js.map
+
 # osx
 .DS_Store
