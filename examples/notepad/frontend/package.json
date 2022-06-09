@@ -13,6 +13,7 @@
     "dependencies": {
         "@walletconnect/client": "^2.0.0-beta.20",
         "@walletconnect/web3-provider": "^1.6.6",
+        "@walletconnect/types": "^1.7.8",
         "assert": "^2.0.0",
         "buffer": "^6.0.3",
         "dotenv": "^10.0.0",
