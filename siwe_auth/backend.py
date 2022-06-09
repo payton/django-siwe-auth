@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.models import User, Group
 from web3 import Web3, HTTPProvider
+from web3.middleware import geth_poa_middleware
 from ens import ENS
 
 from siwe.siwe import (
@@ -57,6 +58,8 @@ class SiweBackend(BaseBackend):
 
         # Validate signature
         w3 = Web3(HTTPProvider(settings.PROVIDER))
+        w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+
         try:
             siwe_message.validate(signature=signature, provider=w3)
         except ValidationError:
