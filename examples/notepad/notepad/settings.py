@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 import sys
 
@@ -65,7 +66,9 @@ CUSTOM_GROUPS = [
         ),
     ),
 ]
-PROVIDER = "https://mainnet.infura.io/v3/69bbfab4edd94ae0ae6a78d63f908d42"
+
+# Set environment variable with your provider or use default
+PROVIDER = os.environ.get("SIWE_AUTH_PROVIDER", "https://mainnet.infura.io/v3/...")
 
 INSTALLED_APPS = [
     "siwe_auth.apps.SiweAuthConfig",

@@ -102,22 +102,34 @@ Requirements for developing and running examples apps:
 
 ### Demo Application
 
-1. Install dependencies
+1. Install NPM dependencies
+   ```sh
+   npm --prefix examples/notepad/frontend install examples/notepad/frontend
+   ```
+2. Build frontend
+   ```sh
+   npm run --prefix examples/notepad/frontend build
+   ```
+3. Install Python dependencies
    ```sh
    poetry install
    ```
-2. Django migrations
+4. Set Web3 provider environment variable
+   ```sh
+   export SIWE_AUTH_PROVIDER="https://mainnet.infura.io/v3/..." # Any provider works
+   ```
+5. Django migrations
    ```sh
    # Create Django migrations
    poetry run examples/notepad/manage.py makemigrations
    # Apply Django migrations
    poetry run examples/notepad/manage.py migrate
    ```
-3. Run server
+6. Run server
    ```sh
    poetry run examples/notepad/manage.py runserver
    ```
-4. Test application at `https://localhost:8000`
+7. Test application at `https://localhost:8000`
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -182,7 +194,7 @@ Requirements for using `django-siwe-auth` in a Django application:
        ('bayc_owners', ERC721OwnerManager(config={'contract': '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D'})),
        ('shib_owners', ERC20OwnerManager(config={'contract': '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce'})),
    ]  # See "Group Plugins" section
-   PROVIDER = "https://mainnet.infura.io/v3/?"
+   PROVIDER = os.environ.get("SIWE_AUTH_PROVIDER", "https://mainnet.infura.io/v3/...")
    ...
    ```
 4. Add `api/auth/` endpoint to your project's `urls.py`
@@ -376,7 +388,10 @@ SESSION_COOKIE_AGE = 3 * 60 * 60 # Age of cookie, in seconds. Optional, django's
 CREATE_GROUPS_ON_AUTHN = True # optional, default is False
 CREATE_ENS_PROFILE_ON_AUTHN = True # optional, default is True
 CUSTOM_GROUPS = [] # optional, see "Adding a Group" below
-PROVIDER = "https://mainnet.infura.io/v3/..." # Required if CREATE_GROUPS_ON_AUTHN or CREATE_ENS_PROFILE_ON_AUTHN are True. Optional otherwise. Any ethereum API key (infura or alchemy) will work.
+# Set environment variable SIWE_AUTH_PROVIDER for Web3.py
+# - Required if CREATE_GROUPS_ON_AUTHN or CREATE_ENS_PROFILE_ON_AUTHN are True. Optional otherwise.
+#   Any ethereum API key (infura or alchemy) will work.
+PROVIDER = os.environ.get("SIWE_AUTH_PROVIDER", "https://mainnet.infura.io/v3/...")
 ```
 
 
