@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-siwe-auth"
-version = "0.1.1"
+version = "0.2.0"
 description = "Custom Django authentication backend using Sign-In with Ethereum (EIP-4361) with a custom wallet user model."
 license = "MIT"
 authors = ["Payton Garland <payton.r.g@gmail.com>"]
