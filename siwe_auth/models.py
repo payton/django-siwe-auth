@@ -25,7 +25,6 @@ class WalletManager(BaseUserManager):
 
         wallet = self.model()
         wallet.ethereum_address = ethereum_address
-        wallet.created = datetime.now()
 
         wallet.save(using=self._db)
         return wallet
@@ -54,7 +53,7 @@ class Wallet(AbstractBaseUser, PermissionsMixin):
     )
     ens_name = models.CharField(max_length=255, blank=True, null=True)
     ens_avatar = models.CharField(max_length=255, blank=True, null=True)
-    created = models.DateTimeField("datetime created")
+    created = models.DateTimeField("datetime created", auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
