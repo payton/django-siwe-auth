@@ -11,7 +11,7 @@ class Notepad(models.Model):
     value = models.TextField()
 
     def __str__(self):
-        return {self.wallet.ethereum_address: self.value}
+        return str({self.wallet.ethereum_address: self.value})
 
 
 class SharedNotepad(models.Model):
@@ -19,4 +19,4 @@ class SharedNotepad(models.Model):
     value = models.TextField()
 
     def __str__(self):
-        return {self.name: self.value}
+        return str({self.name: self.value})
