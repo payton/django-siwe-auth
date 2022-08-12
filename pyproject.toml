@@ -7,6 +7,7 @@ authors = ["Payton Garland <payton.r.g@gmail.com>"]
 packages = [
     { include = "siwe_auth" }
 ]
+exclude = ["siwe_auth/frontend"]
 readme = "README.md"
 repository = "https://github.com/payton/django-siwe-auth"
 keywords = ["SIWE", "EIP-4361", "Sign-In with Ethereum", "Django", "Web3", "Authentication", "Authorization"]
