@@ -394,6 +394,15 @@ CUSTOM_GROUPS = [] # optional, see "Adding a Group" below
 PROVIDER = os.environ.get("SIWE_AUTH_PROVIDER", "https://mainnet.infura.io/v3/...")
 ```
 
+#### Override Admin Login Page
+
+In order to login to the django admin page with siwe-auth, we need to override the login template.
+
+```python
+# in your app's admin.py, add the following line
+admin.site.login_template = 'siwe_auth/login.html'
+```
+
 
 <!-- USAGE EXAMPLES -->
 ### Group Plugins
