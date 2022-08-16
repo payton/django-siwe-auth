@@ -41,7 +41,7 @@ def _nonce_is_valid(nonce: str) -> bool:
 
 class SiweBackend(BaseBackend):
     """
-    Authenticate an Ethereum address as per Sing-In with Ethereum (EIP-4361).
+    Authenticate an Ethereum address as per Sign-In with Ethereum (EIP-4361).
     """
 
     def authenticate(self, request, signature: str = None, siwe_message: SiweMessage = None):
