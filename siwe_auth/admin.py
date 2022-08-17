@@ -29,7 +29,7 @@ class WalletChangeForm(forms.ModelForm):
 
     class Meta:
         model = Wallet
-        fields = ("ethereum_address", "ens_name", "ens_avatar", "is_active", "is_admin")
+        fields = ("ethereum_address", "ens_name", "ens_avatar", "is_active", "is_admin", "is_superuser")
 
 
 class WalletAdmin(BaseUserAdmin):
@@ -43,14 +43,16 @@ class WalletAdmin(BaseUserAdmin):
         "ens_avatar",
         "is_active",
         "is_admin",
+        "is_superuser",
     )
     list_filter = (
         "is_active",
         "is_admin",
+        "is_superuser",
     )
     fieldsets = (
         (None, {"fields": ("ethereum_address",)}),
-        ("Permissions", {"fields": ("is_admin",)}),
+        ("Permissions", {"fields": ("is_admin", "is_superuser",)}),
     )
     add_fieldsets = (
         (
