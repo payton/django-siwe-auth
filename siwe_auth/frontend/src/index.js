@@ -53,6 +53,23 @@ async function signInWithEthereum() {
     location.reload();
 }
 
+async function logout() {
+    const res = await fetch(`/api/auth/logout`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        credentials: 'include'
+    });
+    console.log(await res.text());
+    location.reload();
+}
 
 const siweBtn = document.getElementById('siweBtn');
 siweBtn.onclick = signInWithEthereum;
+
+const siweLogout = document.getElementById('siweLogout');
+if (!!siweLogout) {
+    siweLogout.onclick = logout;
+}
