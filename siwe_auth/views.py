@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta
+import json
+import re
 import secrets
 import pytz
 
@@ -12,6 +14,7 @@ from django.contrib.auth import logout as auth_logout
 from django.views.decorators.http import require_http_methods
 
 from ratelimit.decorators import ratelimit
+from siwe.siwe import SiweMessage
 
 from .custom_groups.group_manager import GroupManager
 from .models import Nonce, Wallet
@@ -20,7 +23,17 @@ from .models import Nonce, Wallet
 @ratelimit(key='ip', rate='5/m')
 @require_http_methods(["POST"])
 def login(request):
-    wallet = authenticate(request)
+    body = json.loads(request.body)
+    auth_kwargs = {
+        "siwe_message": SiweMessage(
+            message={
+                re.sub(r"(?<!^)(?=[A-Z])", "_", k).lower(): v
+                for k, v in body["message"].items()
+            }
+        ),
+        "signature": body["signature"]
+    }
+    wallet = authenticate(request, **auth_kwargs)
     if wallet is not None:
         if wallet.is_active:
             auth_login(request, wallet)

@@ -1,7 +1,5 @@
-import json
 import datetime
 import logging
-import re
 from typing import Optional
 
 import pytz
@@ -44,18 +42,7 @@ class SiweBackend(BaseBackend):
     Authenticate an Ethereum address as per Sign-In with Ethereum (EIP-4361).
     """
 
-    def authenticate(self, request, signature: str = None, siwe_message: SiweMessage = None):
-        body = json.loads(request.body)
-
-        if siwe_message is None:
-            siwe_message = SiweMessage(
-                message={
-                    re.sub(r"(?<!^)(?=[A-Z])", "_", k).lower(): v
-                    for k, v in body["message"].items()
-                }
-            )
-            signature = body["signature"]
-
+    def authenticate(self, request, signature: str, siwe_message: SiweMessage):
         # Validate signature
         w3 = Web3(HTTPProvider(settings.PROVIDER))
         w3.middleware_onion.inject(geth_poa_middleware, layer=0)
