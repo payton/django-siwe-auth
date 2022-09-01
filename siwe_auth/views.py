@@ -26,7 +26,7 @@ def login(request):
     body = json.loads(request.body)
     auth_kwargs = {
         "siwe_message": SiweMessage(
-            message=_dictSnakeCaseToCamelCase(body["message"])
+            message=_dict_camel_case_to_snake_case(body["message"])
         ),
         "signature": body["signature"]
     }
@@ -72,7 +72,7 @@ def nonce(request):
     return JsonResponse({"nonce": n.value})
 
 
-def _dictSnakeCaseToCamelCase(data: dict) -> dict:
+def _dict_camel_case_to_snake_case(data: dict) -> dict:
     """Converts keys in dictionary from camel case to snake case
     """
     return {
