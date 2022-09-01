@@ -224,7 +224,7 @@ Projects that use this app will interact via these endpoints for authentication.
 * Authenticate user based on signed message.
 
 <details>
-<summary>/api/auth/logout</summary>
+<summary>/api/auth/login</summary>
 
 * **Method:**
 
@@ -237,7 +237,7 @@ Projects that use this app will interact via these endpoints for authentication.
 * **Data Params**
 
   **Required:**
-  SIWE Message
+  `{"message": **SIWE message dict or formatted string**, "signature": **user signature of prior message**}`
 
 * **Success Response:**
 
@@ -261,17 +261,14 @@ Projects that use this app will interact via these endpoints for authentication.
 
 * **Sample Call:**
 ```javascript
-fetch(`/api/auth/login`, {
-    method: 'POST',
-    body: JSON.stringify({ message }),
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-}).then(async (res) => {
-    if (res.status === 200) {
-        // Success, continue with authenticated flow
-    } else {
-        // Failure, handle alternative path
-    }
+const res = await fetch(`/api/auth/login`, {
+    method: "POST",
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+    },
+    body: JSON.stringify({ message, signature }),
+    credentials: 'include'
 });
 ```
 
@@ -298,31 +295,23 @@ fetch(`/api/auth/login`, {
 
 * **Success Response:**
 
-    * **Code:** 200 <br />
-      **Content:** `{"success": True, "message": "Successful login."}`
+    * **Code:** 302 <br />
+      **Redirect:** `/`
 
 * **Error Response:**
-
-    * **Code:** 401 UNAUTHORIZED <br />
-      **Content:** `{"success": False, "message": "Wallet disabled."}`
-
-  OR
-
-    * **Code:** 403 FORBIDDEN <br />
-      **Content:** `{"success": False, "message": "Invalid login."}`
-
-  OR
 
     * **Code:** 429 TOO MANY REQUESTS <br />
       **Content:** `{"message": "Too many requests. Slow down."}`
 
 * **Sample Call:**
 ```javascript
-fetch('/api/authentication/logout', {
-    method: 'POST',
-    credentials: 'include',
-}).then(() => {
-    // Success, continue with logout flow
+const res = await fetch(`/api/auth/logout`, {
+    method: "POST",
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+    },
+    credentials: 'include'
 });
 ```
 </details>
@@ -349,7 +338,7 @@ fetch('/api/authentication/logout', {
 * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{"success": True, "message": "Successful login."}`
+      **Content:** `{"nonce": **one-time use nonce**}`
 
 * **Error Response:**
 
@@ -358,11 +347,12 @@ fetch('/api/authentication/logout', {
 
 * **Sample Call:**
 ```javascript
-fetch('/api/authentication/nonce', { 
-    credentials: 'include' 
-}).then((res) =>
-    // Success, continue with message signing flow
-);
+const res = await fetch(`/api/auth/nonce`, {
+    credentials: 'include',
+    headers: {
+      'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+    },
+});
 ```
 </details>
 
