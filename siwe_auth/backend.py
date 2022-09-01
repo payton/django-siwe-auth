@@ -49,9 +49,6 @@ class SiweBackend(BaseBackend):
 
         try:
             siwe_message.validate(signature=signature, provider=w3)
-        except ValidationError:
-            logging.info("Authentication attempt rejected due to invalid message.")
-            return None
         except ExpiredMessage:
             logging.info("Authentication attempt rejected due to expired message.")
             return None
@@ -62,6 +59,9 @@ class SiweBackend(BaseBackend):
             return None
         except InvalidSignature:
             logging.info("Authentication attempt rejected due to invalid signature.")
+            return None
+        except ValidationError:
+            logging.info("Authentication attempt rejected due to invalid message.")
             return None
 
         # Validate nonce
