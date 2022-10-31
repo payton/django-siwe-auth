@@ -57,7 +57,7 @@ def _check_groups(wallet: Wallet):
 @require_http_methods(["POST"])
 def logout(request):
     auth_logout(request)
-    return redirect("/")
+    return redirect(settings.LOGIN_URL)
 
 
 @ratelimit(key='ip', rate='5/m')
